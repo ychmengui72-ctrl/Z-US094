@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Combined Page</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #1e3cff, #8a00c2);
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        color: white;
+    }
+
+    .circle {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background-image: url("ggg.png");
+        background-size: cover;
+        background-position: center;
+        margin-top: 40px;
+        animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+
+    .title {
+        margin-top: 20px;
+        font-size: 60px;
+        font-weight: bold;
+        color: white;
+        animation: glow 3s infinite alternate;
+    }
+
+    @keyframes glow {
+        0% { text-shadow: 0 0 15px red; }
+        100% { text-shadow: 0 0 30px purple; }
+    }
+
+    .box {
+        background: rgba(0,0,0,0.3);
+        padding: 20px;
+        border-radius: 15px;
+        width: 300px;
+        margin-top: 25px;
+        box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background: #4a7cff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: #6c96ff;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="title">GOOGLE</div>
+
+<div class="box">
+    <h3 style="text-align:center">نموذج إدخال</h3>
+
+    <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني">
+    <input type="password" id="password" placeholder="أدخل كلمة السر (محلية فقط)">
+    <button class="btn" onclick="showData()">عرض المدخلات</button>
+</div>
+
+<div class="box">
+    <h3 style="text-align:center">إرسال رسالة إلى بوت تليغرام</h3>
+
+    <input type="text" id="msg" placeholder="اكتب رسالة عادية">
+    <button class="btn" onclick="sendToTelegram()">إرسال</button>
+</div>
+
+<script>
+function showData() {
+    const email = document.getElementById("email").value;
+    const pass  = document.getElementById("password").value;
+
+    alert("Email: " + email + "\nPassword: " + pass);
+}
+
+async function sendToTelegram() {
+    const botToken = "YOUR_BOT_TOKEN"; 
+    const chatId   = "YOUR_CHAT_ID";
+    const textMsg  = document.getElementById("msg").value;
+
+    if (!textMsg.trim()) {
+        alert("أدخل رسالة!");
+        return;
+    }
+
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+    await fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ chat_id: chatId, text: textMsg })
+    });
+
+    alert("تم إرسال الرسالة إلى تليغرام!");
+}
+</script>
+
+</body>
+</html>
